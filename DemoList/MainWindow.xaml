@@ -1,0 +1,85 @@
+﻿<Window x:Class="DemoList.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DemoList"
+        mc:Ignorable="d" WindowStyle="None" 
+        WindowStartupLocation="CenterScreen"
+        WindowState="Maximized" ResizeMode="NoResize" ShowInTaskbar="False"
+        AllowsTransparency="True" Background="Transparent"
+        Title="MainWindow" MinWidth="800" MinHeight="800">
+    <Window.Resources>
+        <Style TargetType="ListBox">
+            <Setter Property="IsHitTestVisible" Value="False"></Setter>
+            <Setter Property="BorderThickness" Value="0"></Setter>
+            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Disabled"></Setter>
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"></Setter>
+            <Setter Property="Background" Value="Transparent"></Setter>
+            <Setter Property="RenderTransformOrigin" Value="0.5,0.5"></Setter>
+            <Setter Property="ItemsPanel">
+                <Setter.Value>
+                    <ItemsPanelTemplate>
+                        <Grid Background="Transparent"></Grid>
+                    </ItemsPanelTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="ListBoxItem" x:Key="TimeItem">
+            <Setter Property="IsHitTestVisible" Value="False"></Setter>
+            <Setter Property="Width" Value="150"></Setter>
+            <Setter Property="HorizontalContentAlignment" Value="Right"></Setter>
+            <Setter Property="Height" Value="150"></Setter>
+            <Setter Property="RenderTransformOrigin" Value="0.5,0.5"></Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBoxItem">
+                        <Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="true">
+                            <ContentPresenter Content="{Binding Content}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="RenderTransform">
+                <Setter.Value>
+                    <TransformGroup>
+                        <RotateTransform Angle="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=ListBoxItem},Path=DataContext.Angle}"/>
+                    </TransformGroup>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Foreground" Value="White"></Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="ListBoxItem" x:Key="DaysItem" BasedOn="{StaticResource TimeItem}">
+            <Setter Property="Width" Value="300"></Setter>
+            <Setter Property="Height" Value="300"></Setter>
+        </Style>
+
+        <Style TargetType="ListBoxItem" x:Key="HoursItem" BasedOn="{StaticResource TimeItem}">
+            <Setter Property="Width" Value="450"></Setter>
+            <Setter Property="Height" Value="450"></Setter>
+        </Style>
+
+        <Style TargetType="ListBoxItem" x:Key="MinsItem" BasedOn="{StaticResource TimeItem}">
+            <Setter Property="Width" Value="600"></Setter>
+            <Setter Property="Height" Value="600"></Setter>
+        </Style>
+
+        <Style TargetType="ListBoxItem" x:Key="SecondsItem" BasedOn="{StaticResource TimeItem}">
+            <Setter Property="Width" Value="750"></Setter>
+            <Setter Property="Height" Value="750"></Setter>
+        </Style>
+    </Window.Resources>
+    <Grid RenderTransformOrigin="0.5,0.5" Background="Transparent">
+        <ListBox SelectedIndex="{Binding CurrentMonth}" x:Name="MonthItems" SelectionChanged="MonthItems_SelectionChanged"  ItemsSource="{Binding Months}" ItemContainerStyle="{StaticResource TimeItem}"></ListBox>
+        <ListBox SelectedIndex="{Binding CurrentDay}"  x:Name="DayItems" SelectionChanged="DayItems_SelectionChanged"  ItemsSource="{Binding Days}" ItemContainerStyle="{StaticResource DaysItem}"></ListBox>
+        <ListBox SelectedIndex="{Binding CurrentHour}" x:Name="HourItems" SelectionChanged="HourItems_SelectionChanged"  ItemsSource="{Binding Hours}" ItemContainerStyle="{StaticResource HoursItem}"></ListBox>
+        <ListBox SelectedIndex="{Binding CurrentMin}" x:Name="MinItems" SelectionChanged="MinItems_SelectionChanged"  ItemsSource="{Binding Mins}" ItemContainerStyle="{StaticResource MinsItem}"></ListBox>
+        <ListBox SelectedIndex="{Binding CurrentSecond}" x:Name="SecondItems" SelectionChanged="SecondItems_SelectionChanged" ItemsSource="{Binding Seconds}" ItemContainerStyle="{StaticResource SecondsItem}"></ListBox>
+    </Grid>
+</Window>
